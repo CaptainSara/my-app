@@ -1,22 +1,24 @@
 import React from 'react'
 import { useQuery, gql } from '@apollo/client'
 
-const TESTS = gql`
-  query GetTests {
-    tests {
-      title, 
-      number, 
-      id
+const newsContainers = gql`
+query get {
+  newsContainers {
+    data {
+      id,
+      attributes {
+				title
+      }
     }
   }
+}
 `
 
 export default function HomePage() {
 
-  const {loading, error, data} = useQuery(TESTS)
+  const {  data} = useQuery(newsContainers)
+
   
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error :</p>
 
 
   console.log(data)
@@ -24,15 +26,13 @@ export default function HomePage() {
   return (
     <div>
       Sara
-      { data.map(review => (
-        <div key={ review.id } className="review-card">
-          <div className="rating">{ review.attributes.number }</div>
-          {/* <h2>{ review.title }</h2> */}
+      { data.newsContainers.data.map(nc => (
+        <div key={ nc.id } className="review-card">
+          
+          <h2>{ nc.attributes.title }</h2>
 
           <small>console list</small>
 
-          {/* <p>{ review.attributes.body }</p>
-          <a to={`/details/${review.id}`}>Readmore</a> */}
         </div>
         
         
